@@ -2,9 +2,7 @@ namespace Particular.TimeoutMigrationTool.ASB
 {
     using System;
     using System.Threading.Tasks;
-    using Azure.Messaging.ServiceBus.Administration;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Identity.Client;
 
     public class AsbTarget : ITimeoutsTarget
     {

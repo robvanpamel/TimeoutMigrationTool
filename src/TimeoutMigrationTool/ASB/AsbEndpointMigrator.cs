@@ -54,11 +54,6 @@ namespace Particular.TimeoutMigrationTool.ASB
                     messageToSend.ApplicationProperties.Add(appProp.Key, appProp.Value);
                 }
 
-                if (scheduledTime < DateTime.Now)
-                {
-                    scheduledTime = DateTime.Now.AddDays(1);
-                }
-
                 counter++;
                 await _azureServiceBusEndpoint.ScheduleMessage(_queueName, scheduledTime, messageToSend);
             });
