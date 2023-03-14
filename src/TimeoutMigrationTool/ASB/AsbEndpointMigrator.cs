@@ -53,9 +53,21 @@ namespace Particular.TimeoutMigrationTool.ASB
                 {
                     messageToSend.ApplicationProperties.Add(appProp.Key, appProp.Value);
                 }
-
                 counter++;
-                await _azureServiceBusEndpoint.ScheduleMessage(_queueName, scheduledTime, messageToSend);
+                if (receivedMessage.ApplicationProperties.ContainsKey("NServiceBus.SqlServer.ForwardDestination"))
+                {
+
+                    var destination = receivedMessage.ApplicationProperties["NServiceBus.SqlServer.ForwardDestination"].ToString();
+                    if (destination.ToLowerInvariant() != _queueName.ToLowerInvariant())
+                    {
+                        await _azureServiceBusEndpoint.ScheduleMessage(destination, scheduledTime, messageToSend);
+                    }
+                }
+                else
+                {
+                    logger.LogInformation($"MessageId does not contain sqlForward destination: '{receivedMessage.MessageId}'");
+
+                }
             });
             return counter;
         }

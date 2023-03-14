@@ -89,7 +89,7 @@ namespace Particular.TimeoutMigrationTool.ASB
             bool hasMessages = true;
             while (hasMessages)
             {
-                var messages = await receiver.ReceiveMessagesAsync(batchCount, TimeSpan.FromSeconds(30));
+                var messages = await receiver.ReceiveMessagesAsync(batchCount, TimeSpan.FromSeconds(5));
                 hasMessages = messages.Count > 0;
                 _logger.LogInformation($"{DateTime.UtcNow}: Received {messages.Count} messages from batch, now processing them . . . ");
                 foreach (var receivedMessage in messages)
